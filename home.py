@@ -8,4 +8,7 @@ bp = Blueprint('home', __name__, url_prefix='/')
 
 @bp.route('/')
 def home():
-    return render_template('home.html')
+    if session:
+        return render_template('home/user-home.html')
+    else:
+        return render_template('home/general-home.html')

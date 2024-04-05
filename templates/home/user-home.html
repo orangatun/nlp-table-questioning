@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h3>{% block title %}Welcome back {{session['username']}} {% endblock %}</h3>
+{% endblock %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+{% endblock %}
+
+{% block content %}
+{% endblock %}
