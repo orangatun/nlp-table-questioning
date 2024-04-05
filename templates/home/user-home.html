@@ -5,8 +5,14 @@
 {% endblock %}
 
 {% block styling %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='user-home.css') }}">
 {% endblock %}
 
 {% block content %}
+<form action="" method=post enctype=multipart/form-data>
+    <!-- <label for="file">File</label> -->
+    <input type=file name=file required accept=".csv">
+    <!-- <label for="submit"></label> -->
+    <input type=submit value=Upload>
+  </form>
 {% endblock %}
