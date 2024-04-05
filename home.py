@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 
 from .ai_model import query
 
-from .sqlite.sqlite_db_func import add_file, get_user_by_name, add_question
+from .sqlite.sqlite_db_func import add_file, get_user_by_name, add_question, add_response_to_question
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
@@ -79,15 +79,20 @@ def question():
             if session['file_id']:
                 question = request.form['question']
                 (error, inserted_id) = add_question(session['file_id'],question)
-                session['last_question'] = None
                 if error is not None:
                     flash(error)
-                elif not inserted_id:
+                elif inserted_id == "-1":
                     flash("Insertion of question in database failed.")
                 else:
                     flash(question)
-                    flash(query(question))
-                    session['last_question'] = inserted_id
+                    answer = query(question)
+                    (error, updated_id) = add_response_to_question(answer, inserted_id)
+                    if error is not None:
+                        flash(error)
+                    elif inserted_id == "-1":
+                        flash(f"Updation of answer in database failed for question {inserted_id}")
+                    else:
+                        flash(answer)
             else:
                 flash('Question is not saved in database. Please try again')
         return render_template('home/user-home.html')
