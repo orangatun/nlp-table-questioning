@@ -11,6 +11,10 @@ def create_app(test_config=None):
         DATABASE=os.path.join(app.instance_path, 'nlp-table-questioning.sqlite'),
     )
 
+    if not os.path.exists(app.instance_path+"/uploads"):
+        os.mkdir(app.instance_path+"/uploads")
+
+    app.config['instance_path'] = app.instance_path
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
