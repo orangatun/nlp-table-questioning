@@ -7,6 +7,8 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
+from .ai_model import query
+
 bp = Blueprint('home', __name__, url_prefix='/')
 
 UPLOAD_FOLDER = os.path.abspath('../uploads')
@@ -41,15 +43,18 @@ def file_upload():
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 session['filename'] = filename
-                data = []
                 session['filepath'] = os.path.join(current_app.instance_path+"/uploads", filename)
                 file.save(os.path.join(current_app.instance_path+"/uploads", filename))
-                with open(session['filepath']) as file:
-                    csv_file = csv.reader(file)
-                    for row in csv_file:
-                        data.append(row)
+                
+                data = {}
+                with open(session['filepath'], newline='') as csvfile:
+                    reader = csv.DictReader(csvfile)
+                    for row in reader:
+                        for key, value in row.items():
+                            data[key] = data.get(key, []) + [value]
                 session['filedata'] = data
                 flash("File uploaded successfully")
+
             else:
                 flash('Invalid file extension')
                 # return redirect(url_for('download_file', name=filename))
@@ -66,6 +71,7 @@ def question():
             if session['filedata']:
                 question = request.form['question']
                 flash(question)
+                flash(query(question))
             else:
                 flash('No file data to ask questions')
         return render_template('home/user-home.html')
