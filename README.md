@@ -24,17 +24,16 @@ For example if the absolute path of the project is `/home/user/Projects/flask-tu
 python3 -m venv .venv
 ```
 
+#### Installing flask, transformers, pandas, pytorch
+
+```
+pip3 install Flask transformers pandas torch torchvision
+```
+
 #### Activate the Virtual Environment
 ```
 . .venv/bin/activate
 ```
-
-#### Installing flask
-
-```
-pip3 install Flask
-```
-
 
 ### Running the application
 
