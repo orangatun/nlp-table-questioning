@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 
 from .ai_model import query
 
-from .sqlite.sqlite_db_func import add_file, get_user_by_name
+from .sqlite.sqlite_db_func import add_file, get_user_by_name, add_question
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
@@ -46,12 +46,14 @@ def file_upload():
                 filename = secure_filename(file.filename)
                 session['filename'] = filename
                 session['filepath'] = os.path.join(current_app.instance_path+"/uploads", filename)
+                session['file_id'] = None
                 file.save(os.path.join(current_app.instance_path+"/uploads", filename))
-                error = add_file(get_user_by_name(username=session['username'])['id'],filename, file_path=session['filepath'])
+                (error, inserted_id) = add_file(get_user_by_name(username=session['username'])['id'],filename, file_path=session['filepath'])
                 if error is not None:
                     flash(error)
                 else:
-                    flash("file saved to database")
+                    flash(f"file saved to database with id {inserted_id}")
+                    session['file_id'] = inserted_id
                 data = {}
                 with open(session['filepath'], newline='') as csvfile:
                     reader = csv.DictReader(csvfile)
@@ -74,12 +76,20 @@ def question():
     if session:
         if request.method == 'POST':
             # check if the file is in the session
-            if session['filedata']:
+            if session['file_id']:
                 question = request.form['question']
-                flash(question)
-                flash(query(question))
+                (error, inserted_id) = add_question(session['file_id'],question)
+                session['last_question'] = None
+                if error is not None:
+                    flash(error)
+                elif not inserted_id:
+                    flash("Insertion of question in database failed.")
+                else:
+                    flash(question)
+                    flash(query(question))
+                    session['last_question'] = inserted_id
             else:
-                flash('No file data to ask questions')
+                flash('Question is not saved in database. Please try again')
         return render_template('home/user-home.html')
     else:
         return render_template('home/general-home.html')
