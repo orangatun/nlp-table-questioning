@@ -1,5 +1,6 @@
 import os
 import functools
+import csv
 
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
@@ -19,6 +20,13 @@ def allowed_file(filename):
 @bp.route('/', methods = ('GET', 'POST'))
 def home():
     if session:
+        return render_template('home/user-home.html')
+    else:
+        return render_template('home/general-home.html')
+
+@bp.route('/upload', methods = ('GET', 'POST'))
+def file_upload():
+    if session:
         if request.method == 'POST':
             # check if the post request has the file part
             if 'file' not in request.files:
@@ -32,8 +40,15 @@ def home():
                 return redirect(request.url)
             if file and allowed_file(file.filename):
                 filename = secure_filename(file.filename)
+                session['filename'] = filename
+                data = []
+                session['filepath'] = os.path.join(current_app.instance_path+"/uploads", filename)
                 file.save(os.path.join(current_app.instance_path+"/uploads", filename))
-                session['file'] = filename
+                with open(session['filepath']) as file:
+                    csv_file = csv.reader(file)
+                    for row in csv_file:
+                        data.append(row)
+                session['filedata'] = data
                 flash("File uploaded successfully")
             else:
                 flash('Invalid file extension')
@@ -41,3 +56,19 @@ def home():
         return render_template('home/user-home.html')
     else:
         return render_template('home/general-home.html')
+
+
+@bp.route('/question', methods = ('GET', 'POST'))
+def question():
+    if session:
+        if request.method == 'POST':
+            # check if the file is in the session
+            if session['filedata']:
+                question = request.form['question']
+                flash(question)
+            else:
+                flash('No file data to ask questions')
+        return render_template('home/user-home.html')
+    else:
+        return render_template('home/general-home.html')
+
