@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h3>{% block title %}Already Logged In{% endblock %}</h3>
+{% endblock %}
+
+{% block content %}
+<p> user '{{session['username']}}' is already logged in. Click <a href = {{ url_for('home.home') }}>here</a> to return home.</p>
+{% endblock %}

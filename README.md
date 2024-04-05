@@ -2,6 +2,12 @@
 NLP table questioning using Python
 
 
+### Features
+- User signup and login
+- Session for user
+- User signup and login blocked when signed in
+
+
 ### Setup instructions
 
 #### Clone this repository
@@ -32,6 +38,15 @@ pip3 install Flask
 
 ### Running the application
 
+
+#### Initialize Database 
+
+We're currently using SQLite for the database, and here's the command to initialize it
+
+```
+flask --app nlp-table-questioning init-db
+```
+#### Running the app
 
 ```
 flask --app nlp-table-questioning run
