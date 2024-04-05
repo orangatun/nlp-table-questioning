@@ -82,12 +82,14 @@ def add_response_to_question(answer, question_id):
     db = get_db()
     error = None
     try:
-        db.execute(
-            "UPDATE question SET response = ? WHERE id = ?", 
+        updated_id = db.execute(
+            "UPDATE question SET response = ? WHERE id = ? RETURNING id", 
             (answer, question_id),
-        )
+        ).fetchone()['id']
         db.commit()
     except db.Error:
         error = "Updating answer failed."
 
-    return error
+    if updated_id is not None and error is None:
+        return (error, updated_id)
+    return (error, "-1")
