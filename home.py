@@ -9,6 +9,8 @@ from werkzeug.utils import secure_filename
 
 from .ai_model import query
 
+from .sqlite.sqlite_db_func import add_file, get_user_by_name
+
 bp = Blueprint('home', __name__, url_prefix='/')
 
 UPLOAD_FOLDER = os.path.abspath('../uploads')
@@ -45,7 +47,11 @@ def file_upload():
                 session['filename'] = filename
                 session['filepath'] = os.path.join(current_app.instance_path+"/uploads", filename)
                 file.save(os.path.join(current_app.instance_path+"/uploads", filename))
-                
+                error = add_file(get_user_by_name(username=session['username'])['id'],filename, file_path=session['filepath'])
+                if error is not None:
+                    flash(error)
+                else:
+                    flash("file saved to database")
                 data = {}
                 with open(session['filepath'], newline='') as csvfile:
                     reader = csv.DictReader(csvfile)
