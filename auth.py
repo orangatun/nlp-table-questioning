@@ -7,7 +7,7 @@ from flask import (
 from markupsafe import Markup
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .sqlite.sqlite_db import get_db
+from .sqlite.sqlite_db_func import user_signup, get_user_by_name, get_user_by_id
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -16,7 +16,6 @@ def signup():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
         error = None
 
         if not username:
@@ -25,15 +24,8 @@ def signup():
             error = 'Password is required.'
 
         if error is None:
-            try:
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            else:
+            error = user_signup(username=username, hashed_password=generate_password_hash(password))
+            if not error:
                 return redirect(url_for("auth.login"))
 
         flash(error)
@@ -48,12 +40,8 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
-
+        user = get_user_by_name(username)
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
@@ -75,13 +63,10 @@ def login():
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
-
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        g.user = get_user_by_id(user_id)
 
 @bp.route('/logout')
 def logout():
