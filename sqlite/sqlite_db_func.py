@@ -36,24 +36,58 @@ def get_user_by_id(user_id):
 def add_file(user_id, file_name, file_path):
     db = get_db()
     error = None
+    inserted_id = None
     try:
-        db.execute(
-            "INSERT INTO file (user_id, file_name, file_path) VALUES (?, ?, ?)",
+        inserted_id = db.execute(
+            "INSERT INTO csv_file (user_id, file_name, file_path) VALUES (?, ?, ?) RETURNING id",
             (user_id, file_name, file_path),
-        )
+        ).fetchone()['id']
         db.commit()
     except db.IntegrityError:
         error = f"File insertion failed."
     
-    return error
+    if inserted_id is not None and error is None:
+        return (error, inserted_id)
+    return (error, "-1")
 
 def get_file_id_by_name(user_id, file_name):
     db = get_db()
     # If there are multiple uploads by the same user, with a file with the same name
     # this returns the id of most recent file uploaded by a user with a file name
     file_id = db.execute(
-        'SELECT id FROM file WHERE user_id = ? AND file_name = ? ORDERBY uploaded DESC', (user_id, file_name)
+        'SELECT id FROM csv_file WHERE user_id = ? AND file_name = ? ORDERBY uploaded DESC', (user_id, file_name)
     ).fetchone()
 
     return file_id
 
+
+def add_question(file_id, question):
+    db = get_db()
+    error = None
+    inserted_id = None
+    try:
+        inserted_id = db.execute(
+            "INSERT INTO question (file_id, question) VALUES (?, ?) RETURNING id",
+            (file_id, question),
+        ).fetchone()['id']
+        db.commit()
+    except db.IntegrityError:
+        error = f"Question insertion failed."
+    
+    if inserted_id is not None and error is None:
+        return (error, inserted_id)
+    return (error, "-1")
+
+def add_response_to_question(answer, question_id):
+    db = get_db()
+    error = None
+    try:
+        db.execute(
+            "UPDATE question SET response = ? WHERE id = ?", 
+            (answer, question_id),
+        )
+        db.commit()
+    except db.Error:
+        error = "Updating answer failed."
+
+    return error

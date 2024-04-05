@@ -45,6 +45,9 @@ We're currently using SQLite for the database, and here's the command to initial
 ```
 flask --app nlp-table-questioning init-db
 ```
+
+**NOTE**: If the database is ever deleted before being removed from the app context,
+to re-initialize it, just run the command again. It will create a new one, and replace the connection in the context.
 #### Running the app
 
 ```
