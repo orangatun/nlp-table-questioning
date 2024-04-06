@@ -4,12 +4,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}{% endblock %} - NLP Table Quest</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='base-style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap">
+
     {% block styling %}{% endblock %}
 </head>
 
 <body>
     <nav>
-        <h1>Table Quest</h1>
+        <a href="{{ url_for('home.home') }}"><h1>Table Quest</h1></a>
         <ul>
             {% if g.user %}
             <li><span>{{ g.user['username'] }}</span>
