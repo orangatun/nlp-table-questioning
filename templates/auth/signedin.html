@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
+{% block styling %}
+<link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
+{% endblock %}
+
 {% block header %}
-  <h3>{% block title %}Already Logged In{% endblock %}</h3>
+  <h2>{% block title %}Already Logged In{% endblock %}</h2>
 {% endblock %}
 
 {% block content %}
