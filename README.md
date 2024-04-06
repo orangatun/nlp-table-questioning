@@ -2,6 +2,9 @@
 NLP table questioning using Python
 
 
+<img width="1438" alt="image" src="https://github.com/orangatun/nlp-table-questioning/assets/34887793/c246139d-9ad0-4960-a03f-b4281203abbe">
+
+
 ### Features
 - User signup and login
 - Session for user
