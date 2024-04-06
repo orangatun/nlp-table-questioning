@@ -1,0 +1,67 @@
+:root {
+    font-family: "Poppins", sans-serif;
+    font-size: 12pt;
+}
+
+body {
+    margin: 0;
+}
+
+nav {
+    position: fixed;
+    top:0;
+    display: block;
+    width: 100%;
+    margin: 0;
+    background-color: #CDEDFD;
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: 600;
+    margin: 0.5em 0 0.5em 1em;
+    color:#0d3b55;
+    text-align: left;
+    display: inline-block;
+}
+
+nav>ul {
+    text-align: right;
+    display: inline;
+    align-items:end;
+    vertical-align: middle;
+    padding: 1.35em 0;
+    margin: 1em 2em 1em 0;
+    float: right;
+    font-size: 1em;
+}
+nav>ul>li {
+    display: inline;
+    background-color: #07718700;
+    text-decoration: none;
+    padding: 0.6em 0.8em;
+    /* margin: 0.6em 0.8em; */
+    /* padding:0; */
+}
+
+nav>ul>li>a{
+    text-decoration: none;
+    font-size: 1.2em;
+    color:#16425B;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+nav>ul>li:hover {
+    background-color: #077187;
+    text-decoration: none;
+    transition: all 0.3s;
+    
+    a {
+        color:#CDEDFD;
+    }
+}
+
+section:first-of-type {
+    margin-top: 7.5em;
+}
