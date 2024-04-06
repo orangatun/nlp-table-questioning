@@ -7,6 +7,8 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
+from .auth import messgs
+
 from .ai_model import query
 
 from .sqlite.sqlite_db_func import add_file, get_user_by_name, add_question, add_response_to_question
@@ -85,6 +87,7 @@ def question():
                     flash("Insertion of question in database failed.")
                 else:
                     flash(question)
+                    messgs.append(f"u{question}")
                     answer = query(question)
                     (error, updated_id) = add_response_to_question(answer, inserted_id)
                     if error is not None:
@@ -93,9 +96,10 @@ def question():
                         flash(f"Updation of answer in database failed for question {inserted_id}")
                     else:
                         flash(answer)
+                        messgs.append(f"a{answer}")
             else:
                 flash('Question is not saved in database. Please try again')
-        return render_template('home/user-home.html')
+        return render_template('home/user-home.html', messgs = messgs)
     else:
         return render_template('home/general-home.html')
 

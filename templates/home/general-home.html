@@ -9,6 +9,10 @@
 {% endblock %}
 
 {% block content %}
+
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
     <div class="container">
         <p>Upload a <span class="codespan">.csv</span> and ask questions. It's that simple!</p>
         <p>We use the pre-trained AI model<a href="https://huggingface.co/google/tapas-base-finetuned-wtq"><span class="codespan">google/tapas-base-finetuned-sqa</span></a> from<a href="https://huggingface.co/"><span class="codespan">HuggingFace</span></a> for this project. 
