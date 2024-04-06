@@ -5,7 +5,29 @@
 
 {% block styling %}
     <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/general-home.css') }}">
 {% endblock %}
 
 {% block content %}
+    <div class="container">
+        <p>Upload a <span class="codespan">.csv</span> and ask questions. It's that simple!</p>
+        <p>We use the pre-trained AI model<a href="https://huggingface.co/google/tapas-base-finetuned-wtq"><span class="codespan">google/tapas-base-finetuned-sqa</span></a> from<a href="https://huggingface.co/"><span class="codespan">HuggingFace</span></a> for this project. 
+            This tool was built 
+            in <a href="https://www.python.org/"><span class="codespan">Python</span></a>,
+            using <a href="https://flask.palletsprojects.com/en/3.0.x/"><span class="codespan">Flask</span></a>, 
+            <a href="https://www.sqlite.org/"><span class="codespan">SQLite</span></a>,
+            and the trusty <a href="https://code.visualstudio.com/"><span class="codespan">Visual Studio Code</span></a>. You can find the source for this project on
+                <a href="https://github.com/orangatun/nlp-table-questioning/"><span class="codespan">GitHub</span></a>.
+        </p>
+    </div>
+
+    <div id="try-now-block">
+        <div id="csv-sample-container">
+            <img src="../../static/img/csv_sample.png" alt="sample csv image"/>
+        </div>
+        <div id="try-now-container">
+            <a id="try-now" href="{{ url_for('auth.signup') }}">Try Now!</a>
+        </div>
+    </div>
+
 {% endblock %}
