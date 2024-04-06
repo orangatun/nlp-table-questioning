@@ -53,6 +53,12 @@ nav>ul>li {
     padding: 0.6em 0.8em;
 }
 
+nav>ul>li>span{
+    font-size: 1.2em;
+    color: #CDEDFDEE;
+    font-weight: 500;
+}
+
 nav>ul>li>a{
     text-decoration: none;
     font-size: 1.2em;
@@ -61,7 +67,7 @@ nav>ul>li>a{
     transition: all 0.3s;
 }
 
-nav>ul>li:hover {
+nav>ul>li:hover:not(#nav-user-name) {
     background-color: #84D2F633;
     text-decoration: none;
     transition: all 0.3s;

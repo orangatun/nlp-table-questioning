@@ -14,7 +14,8 @@
         <a href="{{ url_for('home.home') }}"><h1>Table Quest</h1></a>
         <ul>
             {% if g.user %}
-            <li><span>{{ g.user['username'] }}</span>
+            <li id="nav-user-name"><span>{{ g.user['username'] }}</span></li>
+            <li><a href="{{ url_for('home.history')}}">History</li>
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                 {% else %}
             <li><a href="{{ url_for('auth.signup') }}">Signup</a></li>

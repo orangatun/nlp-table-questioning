@@ -103,3 +103,7 @@ def question():
     else:
         return render_template('home/general-home.html')
 
+
+@bp.route('/history', methods = ('GET', 'POST'))
+def history():
+    return render_template('home/history.html')
