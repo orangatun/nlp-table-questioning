@@ -58,3 +58,14 @@ p>a:hover {
     background-color: #DEC5E332;
     transition: all 0.3s;
 }
+
+div.flash {
+    text-align: center;
+    border-radius: 2pt;
+    border-style: solid;
+    border-color: #FF9F1C;
+    background-color:#FF9F1C32;
+    width:max-content;
+    margin: auto;
+    padding: 1em;
+}
