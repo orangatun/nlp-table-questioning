@@ -106,4 +106,4 @@ def question():
 
 @bp.route('/history', methods = ('GET', 'POST'))
 def history():
-    return render_template('home/history.html')
+    return render_template('home/history.html')            res[row['file_id']] = {}
