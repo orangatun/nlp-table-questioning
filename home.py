@@ -66,6 +66,7 @@ def file_upload():
                             data[key] = data.get(key, []) + [value]
                 session['filedata'] = data
                 flash("File uploaded successfully")
+                messgs.clear()
 
             else:
                 flash('Invalid file extension')
