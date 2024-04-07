@@ -11,7 +11,9 @@ from .auth import messgs
 
 from .ai_model import query
 
-from .sqlite.sqlite_db_func import add_file, get_user_by_name, add_question, add_response_to_question
+from .sqlite.sqlite_db_func import (
+    add_file, get_user_by_name, add_question, add_response_to_question, get_questions_by_user_id
+)
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
@@ -106,4 +108,6 @@ def question():
 
 @bp.route('/history', methods = ('GET', 'POST'))
 def history():
-    return render_template('home/history.html')
+    query_resp = get_questions_by_user_id(session['user_id'])
+
+    return render_template('home/history.html', messgs = query_resp)

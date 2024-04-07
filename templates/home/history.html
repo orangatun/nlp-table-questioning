@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h3>{% block title %} File and Questions History {% endblock %}</h3>
+{% endblock %}
+
+{% block styling %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/general-home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home/history.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div id="messages-container">
+    {% for file in messgs %}
+        {% if file != None %}
+            <div class="q-file-name"> {{ messgs[file]['file_name'] }} </div>
+            <div class="q-file-uploaded"> File Uploaded: &nbsp; {{ messgs[file]['uploaded'] }} </div>
+            {% if messgs[file]['questions']|length > 0 %}
+                <div class="q-label"> Questions:</div>
+                {% for question in messgs[file]['questions'] %}
+                    <div class="q-q"> {{ question['question'] }} 
+                        <div class="q-q-time"> {{ question['question_time'] }} </div>
+                    </div>
+                    <div class="q-q-response"> {{ question['response'] }} </div>
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% endblock %}

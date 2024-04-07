@@ -93,3 +93,23 @@ def add_response_to_question(answer, question_id):
     if updated_id is not None and error is None:
         return (error, updated_id)
     return (error, "-1")
+
+def get_questions_by_user_id(user_id):
+    db = get_db()
+    files = db.execute(
+        'SELECT f.id as file_id, f.file_name as file_name, f.uploaded as uploaded, q.id as question_id, q.req_time as question_time, q.question as question, q.response as response FROM user u JOIN csv_file f ON u.id = f.user_id LEFT JOIN question q ON f.id = q.file_id WHERE u.id = ? ORDER BY u.id, f.id, q.id', (user_id,)
+    ).fetchall()
+    res = {}
+    for row in files:
+        if row['file_id'] not in res:
+            res[row['file_id']] = {}
+            res[row['file_id']]['file_name'] = row['file_name']
+            res[row['file_id']]['uploaded'] = row['uploaded']
+            res[row['file_id']]['questions'] = []
+        if(row['question']):
+            q_tmp = {}
+            q_tmp['question'] = row['question']
+            q_tmp['question_time'] = row['question_time']
+            q_tmp['response'] = row['response']
+            res[row['file_id']]['questions'].append(q_tmp)
+    return res
