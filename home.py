@@ -1,15 +1,14 @@
 import os
-import functools
 import csv
 
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, current_app
+    Blueprint, flash, redirect, render_template, request, session, current_app
 )
 from werkzeug.utils import secure_filename
 
 from .auth import messgs
 
-from .ai_model import query
+from .ai_model.tapas_model import query
 
 from .sqlite.sqlite_db_func import (
     add_file, get_user_by_name, add_question, add_response_to_question, get_questions_by_user_id
