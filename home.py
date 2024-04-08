@@ -10,13 +10,13 @@ from .auth import login_required, messgs
 
 from .ai_model.tapas_model import query
 
-# from .sqlite.sqlite_db_func import (
-#     add_file, get_user_by_name, add_question, add_response_to_question, get_questions_by_user_id
-# )
-
-from .mysql.mysql_db_func import (
+from .sqlite.sqlite_db_func import (
     add_file, get_user_by_name, add_question, add_response_to_question, get_questions_by_user_id
 )
+
+# from .mysql.mysql_db_func import (
+#     add_file, get_user_by_name, add_question, add_response_to_question, get_questions_by_user_id
+# )
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
