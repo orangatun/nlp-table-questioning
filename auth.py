@@ -4,7 +4,6 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-from markupsafe import Markup
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from .sqlite.sqlite_db_func import user_signup, get_user_by_name, get_user_by_id
@@ -62,7 +61,7 @@ def login():
             session.clear()
             session['user_id'] = user['id']
             session['username'] = user['username']
-            messgs = []
+            messgs.clear()
             return redirect(url_for('home.home'))
 
         flash(error)
