@@ -1,7 +1,3 @@
-import sqlite3
-
-from flask import current_app, g
-
 from .sqlite_db import get_db
 
 def user_signup(username, hashed_password):

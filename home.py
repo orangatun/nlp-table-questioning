@@ -6,7 +6,7 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
-from .auth import messgs
+from .auth import login_required, messgs
 
 from .ai_model.tapas_model import query
 
