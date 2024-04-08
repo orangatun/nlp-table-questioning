@@ -2,25 +2,30 @@ import os
 
 from flask import Flask
 
+from .config import ( DevConfig, ProdConfig )
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'nlp-table-questioning.sqlite'),
-    )
 
     if not os.path.exists(app.instance_path+"/uploads"):
         os.mkdir(app.instance_path+"/uploads")
 
-    app.config['instance_path'] = app.instance_path
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        # load the instance config from `config.py`, when not testing
+        run_env = os.environ.get('FLASK_ENV')
+        if run_env=='production':
+            app.config.from_object(ProdConfig())
+        elif run_env=='development':
+            app.config.from_object(DevConfig())
+        else:
+            pass
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
+    
+    app.config['instance_path'] = app.instance_path
 
     # ensure the instance folder exists
     try:
