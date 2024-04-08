@@ -34,11 +34,11 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    from .sqlite import sqlite_db
-    sqlite_db.init_app(app)
+    # from .sqlite import sqlite_db
+    # sqlite_db.init_app(app)
 
-    # from .mysql import mysql_db
-    # mysql_db.init_app(app)
+    from .mysql import mysql_db
+    mysql_db.init_app(app)
 
     from . import auth
     app.register_blueprint(auth.bp)
