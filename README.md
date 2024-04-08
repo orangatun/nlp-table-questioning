@@ -32,6 +32,11 @@ Details in Wiki include:
 │   │   ├── sqlite_db_func.py           # Contains sql interface layer for functions that execute on sqlite db
 │   │   └── sqlite_schema.sql           # Schema for sqlite db
 │   │
+│   ├── mysql/                          # Contains MySQL related code
+│   │   ├── mysql_db.py                 # Contains functions for db init, and handling db connection
+│   │   ├── mysql_db_func.py            # Contains sql interface layer for functions that execute on MySQL db
+│   │   └── mysql_schema.sql            # Schema for MySQL db
+│   │
 │   ├── static/                         # Contains static css or image files
 │   │   ├── home/                       # Contains individual css for each of the pages
 │   │   │   ├── general-home.css        # Styling for home page when user is not signed in
