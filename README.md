@@ -74,6 +74,12 @@ Details in Wiki include:
 - View history of all file, questions and answers history of a user
 
 
+## About the AI model
+The AI model used is [google/tapas-base-finetuned-wtq](https://huggingface.co/google/tapas-base-finetuned-wtq) from [HuggingFace](https://huggingface.co).
+
+From the description:
+> TAPAS is a BERT-like transformers model pretrained on a large corpus of English data from Wikipedia in a self-supervised fashion. This means it was pretrained on the raw tables and associated texts only, with no humans labelling them in any way (which is why it can use lots of publicly available data) with an automatic process to generate inputs and labels from those texts. 
+
 ## Setup instructions
 
 ### Clone this repository
@@ -85,9 +91,9 @@ Change the current working directory to the parent of `nlp-table-questioning`.
 
 For example if the absolute path of the project is `/home/user/Projects/flask-tutorial/nlp-table-questioning/`, the current working directory should be `/home/user/Projects/flask-tutorial/`. 
 
-### Move the `.flashenv` file
+### Move the `.flaskenv` file
 
-The `.flashenv` file contains environment variables which need to be in current working directory. Going off the previous example, the final path of the `.flashenv` file should be `/home/user/Projects/flask-tutorial/.flashenv` and **NOT** `/home/user/Projects/flask-tutorial/nlp-table-questioning/.flashenv`.
+The `.flaskenv` file contains environment variables which need to be in current working directory. Going off the previous example, the final path of the `.flashenv` file should be `/home/user/Projects/flask/.flaskenv` and **NOT** `/home/user/Projects/flask/nlp-table-questioning/.flaskenv`.
 
 ### Create Virtual Environment
 ```
@@ -102,6 +108,7 @@ python3 -m venv .venv
 ### Installing dependencies
 
 ```
+pip3 install Flask transformers pandas torch torchvision
 pip3 install -r ./nlp-table-questioning/requirements.txt
 
 ```
