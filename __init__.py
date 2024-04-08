@@ -5,14 +5,15 @@ from flask import Flask
 from .config import ( DevConfig, ProdConfig )
 
 def create_app(test_config=None):
-    # create and configure the app
+    """ creates and configures the app. 
+    Loads configuration from `config.py` based on `FLASK_ENV` value in `.flaskenv` file in repository root.
+    """
     app = Flask(__name__, instance_relative_config=True)
 
     if not os.path.exists(app.instance_path+"/uploads"):
         os.mkdir(app.instance_path+"/uploads")
 
     if test_config is None:
-        # load the instance config, if it exists, when not testing
         # load the instance config from `config.py`, when not testing
         run_env = os.environ.get('FLASK_ENV')
         if run_env=='production':

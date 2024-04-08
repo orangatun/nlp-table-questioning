@@ -20,22 +20,31 @@ UPLOAD_FOLDER = os.path.abspath('../uploads')
 ALLOWED_EXTENSIONS = {'csv'}
 
 def allowed_file(filename):
+    """Returns boolean
+    Returns True if `filename` is in ALLOWED_EXTENSIONS and False otherwise.
+    """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @bp.route('/', methods = ('GET', 'POST'))
 def home():
+    """Returns a view
+    Returns a user home view if logged in and generic home otherwise.
+    """
     if session:
         return render_template('home/user-home.html')
     else:
         return render_template('home/general-home.html')
 
 @bp.route('/upload', methods = ('GET', 'POST'))
+@login_required
 def file_upload():
+    """Returns user home view after file upload.
+    Handles file upload, saving the file to database, and the processed data object into session.
+    """
     if session:
         if request.method == 'POST':
-            # check if the post request has the file part
             if 'file' not in request.files:
                 flash('No file part')
                 return redirect(request.url)
@@ -76,7 +85,12 @@ def file_upload():
 
 
 @bp.route('/question', methods = ('GET', 'POST'))
+@login_required
 def question():
+    """Returns user home view with question on file answered
+    Takes input from question text field and queries the AI model.
+    Adds the user's question and response from the model to db, and displays it in user home view.
+    """
     if session:
         if request.method == 'POST':
             # check if the file is in the session
@@ -105,9 +119,13 @@ def question():
     else:
         return render_template('home/general-home.html')
 
-
 @bp.route('/history', methods = ('GET', 'POST'))
+@login_required
 def history():
+    """Returns user history view 
+    It queries and displays the db for files the user uploaded, and questions and answers on those files.
+    It requires the user to be logged in.
+    """
     query_resp = get_questions_by_user_id(session['user_id'])
 
     return render_template('home/history.html', messgs = query_resp)
