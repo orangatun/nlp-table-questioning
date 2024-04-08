@@ -125,7 +125,7 @@ pip3 install -r ./nlp-table-questioning/requirements.txt
 
 #### Using SQLite
 
-We're currently using SQLite for the database, and here's the command to initialize it
+In order to use SQLite for the database, and here's the command to initialize it
 
 ```
 flask --app nlp-table-questioning init-db
@@ -133,6 +133,16 @@ flask --app nlp-table-questioning init-db
 
 **NOTE**: If the database is ever deleted before being removed from the app context,
 to re-initialize it, just run the command again. It will create a new one, and replace the connection in the context.
+
+To use SQLite, there are a few changes that need to be made
+- Uncomment lines [#37-#38](https://github.com/orangatun/nlp-table-questioning/blob/main/__init__.py#L37) of `__init__.py`.
+- Comment lines [#40-#41](https://github.com/orangatun/nlp-table-questioning/blob/main/__init__.py#L40) of `__init__.py`.
+- Uncomment line [#9](https://github.com/orangatun/nlp-table-questioning/blob/main/auth.py#L9) of `auth.py`
+- Comment line [#10](https://github.com/orangatun/nlp-table-questioning/blob/main/auth.py#L10) of `auth.py`
+- Uncomment lines [#13-#15](https://github.com/orangatun/nlp-table-questioning/blob/main/home.py#L13) of `home.py`
+- Comment lines [#17-#19](https://github.com/orangatun/nlp-table-questioning/blob/main/home.py#L17) of `home.py`
+
+Those are the changes to switch from MySQL to SQLite. It's reversing the changes in [this commit](https://github.com/orangatun/nlp-table-questioning/commit/1a066c1ee50a6a114a379330399f3a60d24f328b#).
 
 #### Using MySQL
 
