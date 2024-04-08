@@ -14,6 +14,10 @@ bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/signup', methods=('GET', 'POST'))
 def signup():
+    """Returns a view
+    When the user submits a signup form in a POST req, the user is added to db and redirects to Login view.
+    If the user is already logged in, it returns an "already signed in" view, and a "signup" view otherwise.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -38,6 +42,12 @@ def signup():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
+    """Returns a view
+    Verifies the user login information against data in the database.
+    On successful login, it redirects to user home page.
+    On failure, it returns a login view.
+    If the user is already logged in, it returns an "already signed in" view.
+    """
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -64,6 +74,10 @@ def login():
 
 @bp.before_app_request
 def load_logged_in_user():
+    """Runs before each request
+    Checks if there's a user already logged in.
+    If a user is logged in, the user_id must be in the sessino.
+    """
     user_id = session.get('user_id')
     if user_id is None:
         g.user = None
@@ -72,10 +86,17 @@ def load_logged_in_user():
 
 @bp.route('/logout')
 def logout():
+    """Redirects to generic home view after logout
+    Clears session data and redirects to home view.
+    """
     session.clear()
     return redirect(url_for('home.home'))
 
 def login_required(view):
+    """Redirects the user to login page for pages accessed when not logged in.
+    It wraps a view with a check for login. 
+    For example, a user history view requires user to be logged in. 
+    """
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
