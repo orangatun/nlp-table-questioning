@@ -1,4 +1,4 @@
-import sqlite3
+import pymysql
 
 import click
 from flask import current_app, g
@@ -8,11 +8,13 @@ def get_db():
     """Connects to db if a connection is not already present in app context
     """
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE_SQLITE_URI'],
-            detect_types=sqlite3.PARSE_DECLTYPES
+        g.db = pymysql.connect(
+            host=current_app.config['DATABASE_HOST'], 
+            user=current_app.config['DATABASE_USER'], 
+            password=current_app.config['DATABASE_PASS'],
+            database=current_app.config['DATABASE_DB'],
+            charset='utf8mb4', cursorclass=pymysql.cursors.DictCursor
         )
-        g.db.row_factory = sqlite3.Row
 
     return g.db
 
@@ -30,9 +32,9 @@ def init_db():
     """
     db = get_db()
 
-    with current_app.open_resource('sqlite/sqlite_schema.sql') as f:
-        db.executescript(f.read().decode('utf8'))
-
+    with current_app.open_resource('mysql/mysql_schema.sql') as f:
+        for line in f:
+            db.cursor().execute(line)
 
 @click.command('init-db')
 def init_db_command():

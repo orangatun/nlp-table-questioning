@@ -6,7 +6,8 @@ from flask import (
 
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .sqlite.sqlite_db_func import user_signup, get_user_by_name, get_user_by_id
+# from .sqlite.sqlite_db_func import user_signup, get_user_by_name, get_user_by_id
+from .mysql.mysql_db_func import user_signup, get_user_by_name, get_user_by_id
 
 messgs = []
 bp = Blueprint('auth', __name__, url_prefix='/auth')
