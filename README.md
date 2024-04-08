@@ -108,7 +108,7 @@ python3 -m venv .venv
 ### Installing dependencies
 
 ```
-pip3 install Flask transformers pandas torch torchvision
+pip3 install Flask transformers pandas torch torchvision python-dotenv pymysql
 pip3 install -r ./nlp-table-questioning/requirements.txt
 
 ```
@@ -118,6 +118,8 @@ pip3 install -r ./nlp-table-questioning/requirements.txt
 
 ### Initialize Database 
 
+#### Using SQLite
+
 We're currently using SQLite for the database, and here's the command to initialize it
 
 ```
@@ -126,6 +128,51 @@ flask --app nlp-table-questioning init-db
 
 **NOTE**: If the database is ever deleted before being removed from the app context,
 to re-initialize it, just run the command again. It will create a new one, and replace the connection in the context.
+
+#### Using MySQL
+
+To use MySQL, set the details in `.flaskenv` with localhost for local installation, and `db4free.net` for the online service.
+Replace the username, password, and database_name with their respective values.
+
+```
+DEV_DATABASE_HOST=localhost #db4free.net
+DEV_DATABASE_USER=username
+DEV_DATABASE_PASS=password
+DEV_DATABASE_DB=database_name
+```
+
+##### Online MySQL service
+
+In order to save setup time for MySQL, I was able to find a free hosted MySQL service [db4free.net](https://www.db4free.net).
+The service is unreliable and has a limit of 200MB, and is only meant for testing purposes. 
+However, it offers a quick way to test out the project.
+
+Please delete your account after use, to save resources.
+
+##### Local MySQL installation
+
+Follow the installation instructions for your operating system in the [official documentation here](https://dev.mysql.com/doc/mysql-getting-started/en/)
+
+After the installation, set your username and password in the mysql monitor
+
+```mysql
+mysql>  ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+```
+
+Once your new password is set, create a database
+
+```mysql
+mysql> CREATE DATABASE pets;
+```
+
+To verify that the database is created, run the command
+
+```mysql
+mysql> SHOW DATABASES;
+```
+
+Replace the username, password, and database_name values in `.flaskenv` with your values now. 
+
 
 ### Running the app
 

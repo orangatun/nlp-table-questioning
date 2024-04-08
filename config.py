@@ -25,4 +25,8 @@ class DevConfig(Config):
     """Development config."""
     FLASK_ENV = "development"
     FLASK_DEBUG = True
-    DATABASE_URI = path.join(path.dirname(__file__), 'nlp-table-questioning.sqlite')
+    DATABASE_SQLITE_URI = path.join(path.dirname(__file__), 'nlp-table-questioning.sqlite')
+    DATABASE_HOST = environ.get('DEV_DATABASE_HOST')
+    DATABASE_USER = environ.get('DEV_DATABASE_USER')
+    DATABASE_PASS = environ.get('DEV_DATABASE_PASS')
+    DATABASE_DB = environ.get('DEV_DATABASE_DB')
